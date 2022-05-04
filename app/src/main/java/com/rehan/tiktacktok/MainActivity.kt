@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,21 +37,24 @@ class MainActivity : AppCompatActivity() {
     var player2=ArrayList<Int>()
 
     fun play(cellID: Int, choise: Button) {
-
+         
         if (playernumber == 1) {
             choise.text = "O"
             choise.setBackgroundResource(R.color.darkagreen)
             player1.add(cellID)
             playernumber = 2
+            //CheckWinner()
+            Autoplay()
         } else {
             choise.text = "X"
             choise.setBackgroundResource(R.color.blue)
             player2.add(cellID)
             playernumber = 1
+            //CheckWinner()
         }
 
         choise.isEnabled = false
-
+        CheckWinner()
     }
 
     fun CheckWinner(){
@@ -97,16 +102,39 @@ class MainActivity : AppCompatActivity() {
 
         if (winner!=-1){
             if (winner==1){
-             Toast.makeText(this, "player O win the game", Toast.LENGTH_SHORT).show()}
+             Toast.makeText(this, "player O win the game", Toast.LENGTH_LONG).show()}
 
             if (winner==2){
-             Toast.makeText(this, "player X win the game", Toast.LENGTH_SHORT).show()}
+             Toast.makeText(this, "player X win the game", Toast.LENGTH_LONG).show()}
 
         }
+    }
 
+    fun Autoplay() {
+     val emptycells=ArrayList<Int>()
+        for (i in 1..9)
+        { if( !player1.contains(i) || !player2.contains(i)){
+            emptycells.add(i);
+        } }
+        val ran= (1..emptycells.size).random() //get any random number between 0 to 9
+        val cellID=emptycells[ran]
+        var buselect :Button?
+        when(cellID)
+        {
+            1->buselect=bu1
+            2->buselect=bu2
+            3->buselect=bu3
+            4->buselect=bu4
+            5->buselect=bu5
+            6->buselect=bu6
+            7->buselect=bu7
+            8->buselect=bu8
+            9->buselect=bu9
+            else->{buselect=bu1}
 
-
-
+        }
+        play(cellID,buselect)
 
     }
+
 }
